@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# poetry
+poetry.lock
+
+# Environments
+.env
+
+# Database
+database.ini
+
+# Kaggle data
+data/external
+
+# Models
+src/models/*/

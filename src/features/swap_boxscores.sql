@@ -1,0 +1,92 @@
+CREATE TABLE RECIPRICOL_BOXSCORE_TABLE_NAME_PLACEHOLDER AS
+WITH w_t1_l_t2 AS (
+    SELECT
+		Season,
+		DayNum,
+		LTeamID AS T2_TeamID,
+		LScore AS T2_Score,
+		WTeamID AS T1_TeamID,
+		WScore AS T1_Score,
+		CASE 
+    		WHEN WLoc = 'H' THEN 1
+			WHEN WLoc = 'A' THEN -1
+			WHEN WLoc = 'N' THEN 0
+			ELSE NULL
+ 		END AS location,
+		NumOT,
+		LFGM AS T2_FGM,
+		LFGA AS T2_FGA,
+		LFGM3 AS T2_FGM3,
+		LFGA3 AS T2_FGA3,
+		LFTM AS T2_FTM,
+		LFTA AS T2_FTA,
+		LOR AS T2_OR,
+		LDR AS T2_DR,
+		LAst AS T2_Ast,
+		LTO AS T2_TO,
+		LStl AS T2_Stl,
+		LBlk AS T2_Blk,
+		LPF AS T2_PF,
+		WFGM AS T1_FGM,
+		WFGA AS T1_FGA,
+		WFGM3 AS T1_FGM3,
+		WFGA3 AS T1_FGA3,
+		WFTM AS T1_FTM,
+		WFTA AS T1_FTA,
+		WOR AS T1_OR,
+		WDR AS T1_DR,
+		WAst AS T1_Ast,
+		WTO AS T1_TO,
+		WStl AS T1_Stl,
+		WBlk AS T1_Blk,
+		WPF AS T1_PF,
+		WScore - LScore AS PointDiff
+    FROM BOXSCORE_TABLE_NAME_PLACEHOLDER
+),
+w_t2_l_t1 AS (
+	SELECT
+		Season,
+		DayNum,
+		WTeamID AS T2_TeamID,
+		WScore AS T2_Score,
+		LTeamID AS T1_TeamID,
+		LScore AS T1_Score,
+		CASE 
+    		WHEN WLoc = 'H' THEN -1
+			WHEN WLoc = 'A' THEN 1
+			WHEN WLoc = 'N' THEN 0
+			ELSE NULL
+ 		END AS location,
+		NumOT,
+		WFGM AS T2_FGM,
+		WFGA AS T2_FGA,
+		WFGM3 AS T2_FGM3,
+		WFGA3 AS T2_FGA3,
+		WFTM AS T2_FTM,
+		WFTA AS T2_FTA,
+		WOR AS T2_OR,
+		WDR AS T2_DR,
+		WAst AS T2_Ast,
+		WTO AS T2_TO,
+		WStl AS T2_Stl,
+		WBlk AS T2_Blk,
+		WPF AS T2_PF,
+		LFGM AS T1_FGM,
+		LFGA AS T1_FGA,
+		LFGM3 AS T1_FGM3,
+		LFGA3 AS T1_FGA3,
+		LFTM AS T1_FTM,
+		LFTA AS T1_FTA,
+		LOR AS T1_OR,
+		LDR AS T1_DR,
+		LAst AS T1_Ast,
+		LTO AS T1_TO,
+		LStl AS T1_Stl,
+		LBlk AS T1_Blk,
+		LPF AS T1_PF,
+		LScore - WScore AS PointDiff
+	FROM BOXSCORE_TABLE_NAME_PLACEHOLDER
+)
+SELECT * FROM w_t1_l_t2
+UNION ALL
+SELECT * FROM w_t2_l_t1;
